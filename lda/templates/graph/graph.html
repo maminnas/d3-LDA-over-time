@@ -21,7 +21,7 @@
 <style>
 
 body {
-  font: 10px sans-serif;
+  font: 10px arial;
 }
 
 .panel-title{
@@ -31,13 +31,9 @@ body {
   padding-right: 10px;
   padding-bottom: 10px; 
   margin-left: 5%;
-  margin-right: 5%;
+  width:1100px;
   background-color: #36a7b8;
   color: #FFFFFF;
-}
-
-.graph-panel-body{
-  margin-left: 3%;
 }
 
 .axis path,
@@ -71,14 +67,14 @@ body {
   stroke: #C6C7C8;
   fill: none;
   stroke-width: 1px;
-  left: 10px;
+  left: 10%;
   shape-rendering: crispEdges;
   /*opacity: 1e-6;*/
 }
 
 .hover-text {
   stroke: none;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: bold;
   fill: #000000;
 }
@@ -93,15 +89,22 @@ body {
 }
 
 .graph-panel-body{
-  height:600;
-  /*overflow:scroll;*/
+  margin-left: 3%;
+  height:510px;
+  width: 1200px;
+  overflow: hidden;
 }
 
-#bootstrap-overrides{
+.graph-panel-body svg{
+  height:100%;
+  overflow: auto
+}
+
+/*#bootstrap-overrides{
   overflow: hidden; 
   white-space: nowrap; 
   text-overflow: ellipsis;
-}
+}*/
 
 .well{
   margin-left:5%;
@@ -109,7 +112,6 @@ body {
 </style>
 
 <body id="bootstrap-overrides">
-  <div class="row"></br></div>
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
@@ -142,7 +144,7 @@ body {
           </div>
         </div>
       </div> -->
-      <div class='right-pane'>
+      <div class='bottom-pane'>
         <div class="col-lg-12 float">
           <div class="panel panel-primary">
             <div class="panel-heading">
@@ -170,9 +172,9 @@ for (i=0;i<tops.length;i++){
   // console.log(JSON.stringify(tops))
 
 
-var margin = {top: 20, right: 400, bottom: 100, left: 50},
+var margin = {top: 12, right: 560, bottom: 100, left: 50},
     margin2 = { top: 430, right: 10, bottom: 20, left: 40 },
-    width = 1160 - margin.left - margin.right,
+    width = 1260 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom,
     height2 = 500 - margin2.top - margin2.bottom;
 
@@ -277,7 +279,7 @@ d3.json("{% url "topic_over_time" %}", function(error, data) {
           rating: +(d[name]),
           };
       }),
-      visible: (name === "t0" ? true : false) // "visible": all false except for economy which is true.
+      visible: (name === "t6" ? true : false) // "visible": all false except for economy which is true.
     };
   });
   // console.log(JSON.stringify(categories))
@@ -362,7 +364,7 @@ d3.json("{% url "topic_over_time" %}", function(error, data) {
   issue.append("rect")
       .attr("width", 9)
       .attr("height", 9)                                    
-      .attr("x", width + (margin.right/4)-40) // rect position 
+      .attr("x", width + (margin.right/6)-40) // rect position 
       .attr("y", function (d, i) { return (legendSpace)+i*(legendSpace) - 8; })  // spacing
       .attr("fill",function(d) {
         return d.visible ? color(d.name) : "#F1F1F2"; // If array key "visible" = true then color rect, if not then make it grey 
@@ -389,6 +391,13 @@ d3.json("{% url "topic_over_time" %}", function(error, data) {
           .attr("fill", function(d) {
           return d.visible ? color(d.name) : "#F1F1F2";
         });
+
+        issue.select("text")
+          .transition()
+          .style("opacity", function(d) {
+          return d.visible ? 1 : 0.5;
+        });
+
       })
 
       .on("mouseover", function(d){
@@ -415,7 +424,10 @@ d3.json("{% url "topic_over_time" %}", function(error, data) {
       })
 
   issue.append("text")
-      .attr("x", width + (margin.right/4) -20) 
+      .style("opacity", function(d) {
+          return d.visible ? 1 : 0.5;
+        })
+      .attr("x", width + (margin.right/6) -28) 
       .attr("y", function (d, i) { return (legendSpace)+i*(legendSpace); })  // (return (11.25/2 =) 5.625) + i * (5.625) 
       .text(function(d) { return d.name + ' ' + d.words} ); // add top words of topics to the legend
 
@@ -434,8 +446,8 @@ d3.json("{% url "topic_over_time" %}", function(error, data) {
   var hoverDate = hoverLineGroup
         .append('text')
             .attr("class", "hover-text")
-            .attr("y", 25) // hover date text position
-            .attr("x", width - 680) // hover date text position
+            .attr("y", 20) // hover date text position
+            .attr("x", width - 620) // hover date text position
             .style("fill", "#D6D7D8");
 
   var columnNames = d3.keys(data[2]) //grab the key values from your first data row
@@ -449,7 +461,7 @@ d3.json("{% url "topic_over_time" %}", function(error, data) {
 
   focus.append("text") // http://stackoverflow.com/questions/22064083/d3-js-multi-series-chart-with-y-value-tracking
         .attr("class", "tooltip")
-        .attr("x", width + 20) // position tooltips  
+        .attr("x", width + 10) // position tooltips  
         .attr("y", function (d, i) { return (legendSpace)+i*(legendSpace); }); // (return (11.25/2 =) 5.625) + i * (5.625) // position tooltips       
 
   // Add mouseover events for hover line.
