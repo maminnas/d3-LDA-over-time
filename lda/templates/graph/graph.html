@@ -509,7 +509,8 @@ d3.json("{% url "topic_over_time" %}", function(error, data) {
          //because you didn't explictly set any data on the <text>
          //elements, each one inherits the data from the focus <g>
         // console.log(d[columnName])
-         return (Number(d[columnName]).toFixed(4));
+         // return (Number(d[columnName]).toFixed(4)==0.0000 ? null : Number(d[columnName]).toFixed(4));
+         return (categories[Number(columnName.slice(1))].visible ? Number(d[columnName]).toFixed(4) : null);
       });
   }; 
 
