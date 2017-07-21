@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A visualization of LDA results on a time line">
     <meta name="author" content="Moin Amin-naseri">
-    <link rel="shortcut icon" href="{{STATIC_URL}}icon/favicon.ico">
+    <link rel="shortcut icon" href="../static/lda/icon/favicon.ico">
 
     <title>Topics over time</title>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>   -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>  
     <!-- Bootstrap -->
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Optional theme-->
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <!-- Latest compiled and minified JavaScript -->
     <script src="http://d3js.org/d3.v3.min.js"></script>
   </head>
@@ -23,7 +23,7 @@
 body {
   font: 10px arial;
 }
-
+/*
 .panel-title{
   margin-top: 10px;
   padding-left: 10px;
@@ -34,7 +34,7 @@ body {
   width:1100px;
   background-color: #36a7b8;
   color: #FFFFFF;
-}
+}*/
 
 .axis path,
 .axis line, 
@@ -81,6 +81,7 @@ body {
 
 .tooltip {
   font-weight: normal;
+  opacity: 1;
 }
 
 .brush .extent {
@@ -89,16 +90,15 @@ body {
 }
 
 .graph-panel-body{
-  margin-left: 3%;
-  height:510px;
-  width: 1200px;
-  overflow: hidden;
+  /*margin-left: 3%;*/
+  height:540px;
+  overflow-x: auto;
 }
 
-.graph-panel-body svg{
+/*.graph-panel-body svg{
   height:100%;
-  overflow: auto
-}
+  overflow: auto;
+}*/
 
 /*#bootstrap-overrides{
   overflow: hidden; 
@@ -107,7 +107,8 @@ body {
 }*/
 
 .well{
-  margin-left:5%;
+  margin-top:15px;
+  padding-top: 2px;
 }
 </style>
 
@@ -116,46 +117,27 @@ body {
     <div class="row">
       <div class="col-lg-12">
         <div class="well">
-          <h1> Latent Dirichlet Allocation </h1>
-          <h4> This sample provides you with a list of topics and a graph visualizing topics over time. </h4>
-          <h4> You can specify topics you would like to see on graph by clicking on them in the left list. </h4>
+          <h2> Latent Dirichlet Allocation </h2>
+          <h5> This sample provides you with a list of topics and a graph visualizing topics over time. </h5>
+          <h5> You can specify topics you would like to see on graph by clicking on their icon on the list. </h5>
           <!-- <div class="progress">
           <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%"></div></div>-->
         </div>
       </div>
     </div>
     <div class="row"> 
-      <!-- <div class='left-pane'>
-        <div class="col-lg-4 float">
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              <h3 class="panel-title">List of Topics</h3>
-            </div>
-            <div class="panel-body">
-              <div class="col-lg-12">
-                <div class="list-group">
-                  {% for entry in topics %}
-                  <a href="#" class="list-group-item" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" title="{{ entry.words }}">{{ entry.topic_id }}: {{ entry.words }}</a>
-                  {% endfor %}
-                  <!-- <svg class="svg1" width="100" height="480"></svg> --
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
-      <div class='bottom-pane'>
+      <!-- <div class='bottom-pane'> -->
         <div class="col-lg-12 float">
           <div class="panel panel-primary">
             <div class="panel-heading">
               <h3 class="panel-title">Graph of Topics Over Time</h3>
             </div>
-            <div class="graph-panel-body">
+            <div class="graph-panel-body panel-body">
               <!-- <svg class="svg" width="760" height="480"></svg> -->
             </div>
           </div>
         </div>
-      </div>
+      <!-- </div> -->
     </div>
   </div>
 
@@ -172,9 +154,9 @@ for (i=0;i<tops.length;i++){
   // console.log(JSON.stringify(tops))
 
 
-var margin = {top: 12, right: 560, bottom: 100, left: 50},
+var margin = {top: 12, right: 440, bottom: 100, left: 50},
     margin2 = { top: 430, right: 10, bottom: 20, left: 40 },
-    width = 1260 - margin.left - margin.right,
+    width = 1080 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom,
     height2 = 500 - margin2.top - margin2.bottom;
 
@@ -190,7 +172,7 @@ var xScale = d3.time.scale()
 var yScale = d3.scale.linear()
     .range([height, 0]);
 
-// 40 Custom DDV colors 
+// 53 Custom DDV colors 
 var color = d3.scale.ordinal().range(["#48A36D",  "#56AE7C",  "#64B98C", "#72C39B", "#80CEAA", "#80CCB3", "#7FC9BD", "#7FC7C6", "#7EC4CF", "#7FBBCF", "#7FB1CF", "#80A8CE", "#809ECE", "#8897CE", "#8F90CD", "#9788CD", "#9E81CC", "#AA81C5", "#B681BE", "#C280B7", "#CE80B0", "#D3779F", "#D76D8F", "#DC647E", "#E05A6D", "#E16167", "#E26962", "#E2705C", "#E37756", "#E38457", "#E39158", "#E29D58", "#E2AA59", "#E0B15B", "#DFB95C", "#DDC05E", "#DBC75F", "#E3CF6D", "#EAD67C", "#F2DE8A", "#FA8072", "#F4A460", "#BC8F8F", "#A0522D", "#DDA0DD", "#00FF7F", "#D2B48C", "#008080", "#EE82EE", "#98FB98", "#DB7093", "#FFE4B5", " #D2691E"]);  
 
 
@@ -216,7 +198,7 @@ var maxY; // Defined later to update yAxis
 
 var svg = d3.select(".graph-panel-body").append("svg")
     .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom) //height + margin.top + margin.bottom
+    .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -245,6 +227,7 @@ svg.append("defs")
 
 //end slider part----------------------------------------------------------------------------------- 
 
+// retrieve data
 d3.json("{% url "topic_over_time" %}", function(error, data) { 
   // console.log(data)
   data = JSON.parse(data)
@@ -270,8 +253,8 @@ d3.json("{% url "topic_over_time" %}", function(error, data) {
 
   var categories = color.domain().map(function(name) { // Nest the data into an array of objects with new keys
     return {
-      name: name, // "name": the csv headers except date
-      words: tops.filter( function (d){return d.topic_id == name.slice(1)})[0]["words"],
+      name: name, // "name": the topic names
+      words: tops.filter( function (d){return d.topic_id == name.slice(1)})[0]["words"], // "words": 
       values: data.map(function(d) { // "values": which has an array of the dates and ratings
         return {
           // date: d.datetime,
@@ -279,12 +262,12 @@ d3.json("{% url "topic_over_time" %}", function(error, data) {
           rating: +(d[name]),
           };
       }),
-      visible: (name === "t6" ? true : false) // "visible": all false except for economy which is true.
+      visible: (name === "t6" ? true : false) // "visible": all false except for one eg. t6
     };
   });
   // console.log(JSON.stringify(categories))
 
-  xScale.domain(d3.extent(data, function(d) { return d.datetime; })); // extent = highest and lowest points, domain is data, range is bouding box
+  xScale.domain(d3.extent(data, function(d) { return d.datetime; })); // extent = highest and lowest points in the data domain
 
   yScale.domain([0, 1
     //d3.max(categories, function(c) { return d3.max(c.values, function(v) { return v.rating; }); })
@@ -364,7 +347,7 @@ d3.json("{% url "topic_over_time" %}", function(error, data) {
   issue.append("rect")
       .attr("width", 9)
       .attr("height", 9)                                    
-      .attr("x", width + (margin.right/6)-40) // rect position 
+      .attr("x", width + 50) //(margin.right/4)-40) // rect position 
       .attr("y", function (d, i) { return (legendSpace)+i*(legendSpace) - 8; })  // spacing
       .attr("fill",function(d) {
         return d.visible ? color(d.name) : "#F1F1F2"; // If array key "visible" = true then color rect, if not then make it grey 
@@ -427,7 +410,7 @@ d3.json("{% url "topic_over_time" %}", function(error, data) {
       .style("opacity", function(d) {
           return d.visible ? 1 : 0.5;
         })
-      .attr("x", width + (margin.right/6) -28) 
+      .attr("x", width + 62) //(margin.right/4) -28) 
       .attr("y", function (d, i) { return (legendSpace)+i*(legendSpace); })  // (return (11.25/2 =) 5.625) + i * (5.625) 
       .text(function(d) { return d.name + ' ' + d.words} ); // add top words of topics to the legend
 
@@ -447,7 +430,7 @@ d3.json("{% url "topic_over_time" %}", function(error, data) {
         .append('text')
             .attr("class", "hover-text")
             .attr("y", 20) // hover date text position
-            .attr("x", width - 620) // hover date text position
+            .attr("x", 20) // hover date text position
             .style("fill", "#D6D7D8");
 
   var columnNames = d3.keys(data[2]) //grab the key values from your first data row
